@@ -15,3 +15,7 @@ provider "aws" {
     role_arn = "arn:aws:iam::706762893183:role/TerraformExecutionRole"
   }
 }
+
+provider "github" {
+  #needed if variable "enable_github_secrets" set to true
+}

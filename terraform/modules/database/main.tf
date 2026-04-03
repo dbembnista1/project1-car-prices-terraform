@@ -1,7 +1,7 @@
 # Temporary S3 bucket for the CSV seed file
 resource "aws_s3_bucket" "temp_bucket" {
   bucket_prefix = "car-prices-temp-bucket-"
-  force_destroy = true 
+  force_destroy = true
 
   tags = var.tags
 }
@@ -30,12 +30,12 @@ resource "aws_dynamodb_table" "car_prices" {
 
   import_table {
     input_format = "CSV"
-    
+
     s3_bucket_source {
       bucket     = aws_s3_bucket.temp_bucket.id
       key_prefix = aws_s3_object.seed_file.key
     }
-    
+
     input_format_options {
       csv {
         delimiter = ","

@@ -31,7 +31,7 @@ resource "local_file" "ssh_key" {
 # Security Group for the web server
 resource "aws_security_group" "web_sg" {
   name        = "${var.project_name}-web-sg"
-  vpc_id = var.vpc_id
+  vpc_id      = var.vpc_id
   description = "Security group for web server allowing HTTP, HTTPS, and SSH"
 
   ingress {
@@ -70,11 +70,12 @@ resource "aws_security_group" "web_sg" {
 
 # EC2 Instance
 resource "aws_instance" "web_server" {
-  ami           = data.aws_ami.amazon_linux_2023.id
-  instance_type = var.instance_type
-  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
+  ami                    = data.aws_ami.amazon_linux_2023.id
+  instance_type          = var.instance_type
+  iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
+  subnet_id              = var.subnet_id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
-  key_name = aws_key_pair.deployer_key.key_name
+  key_name               = aws_key_pair.deployer_key.key_name
 
   user_data = <<-EOF
 #!/bin/bash
@@ -138,7 +139,7 @@ resource "aws_iam_policy" "dynamodb_read_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action   = [
+        Action = [
           "dynamodb:Scan",
           "dynamodb:Query",
           "dynamodb:GetItem"

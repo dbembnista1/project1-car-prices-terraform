@@ -1,16 +1,31 @@
-name: Deploy Express App to EC2
+name: Deploy via OIDC
 
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'src/express/**' # Odpalaj tylko przy zmianach w kodzie aplikacji
+
+#Allow GH to generate tokens
+permissions:
+  id-token: write 
+  contents: read
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }} 
+          aws-region: eu-central-1
+
+      
+      - name: Check AWS Caller Identity
+        run: aws sts get-caller-identity
+        
       - name: Checkout repository
         uses: actions/checkout@v4
 
