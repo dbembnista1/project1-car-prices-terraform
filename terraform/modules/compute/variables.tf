@@ -1,0 +1,27 @@
+variable "project_name" {
+  description = "Name of the project"
+  type        = string
+}
+
+variable "instance_type" {
+  description = "EC2 instance type"
+  type        = string
+  default     = "t3.micro"
+}
+
+variable "tags" {
+  description = "Common tags for all resources"
+  type        = map(string)
+}
+
+# Bardzo ważne dla LinkedIn Showcase - nie hardkodujemy ARN w polityce!
+variable "dynamodb_table_arn" {
+  description = "ARN of the DynamoDB table for IAM policy"
+  type        = string
+}
+
+# Jeśli używasz własnego VPC, te zmienne też będą potrzebne:
+variable "vpc_id" {
+  description = "ID of the VPC"
+  type        = string
+}

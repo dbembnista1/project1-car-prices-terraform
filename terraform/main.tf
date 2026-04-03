@@ -17,3 +17,13 @@ module "database" {
     ManagedBy   = "Terraform"
   }
 }
+
+module "compute" {
+  source = "./modules/compute"
+
+  project_name       = var.project_name
+  instance_type      = "t3.micro"
+  tags               = var.common_tags
+  vpc_id             = module.network.vpc_id 
+  dynamodb_table_arn = module.database.table_arn
+}

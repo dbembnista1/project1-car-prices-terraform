@@ -10,3 +10,6 @@ crash.log
 
 # Ignore any .tfvars files that are generated automatically for this project
 *.tfvars
+
+# Ignore generated SSH private keys
+*.pem
