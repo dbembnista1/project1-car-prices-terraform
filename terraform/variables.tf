@@ -17,4 +17,5 @@ variable "enable_github_secrets" {
 variable "github_repository" {
   description = "Name of the GitHub repository for secrets injection"
   type        = string
+  default     = ""
 }

@@ -26,9 +26,6 @@ jobs:
       - name: Check AWS Caller Identity
         run: aws sts get-caller-identity
         
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Copy files via SSH
         uses: appleboy/scp-action@v0.1.7
         with:
