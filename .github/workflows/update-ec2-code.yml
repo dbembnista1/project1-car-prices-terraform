@@ -3,6 +3,8 @@ name: Deploy via OIDC
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'src/**'
 
 #Allow GH to generate tokens
 permissions:
