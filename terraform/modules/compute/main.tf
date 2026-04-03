@@ -114,14 +114,17 @@ systemctl enable httpd
 systemctl start httpd
 
 # 4. Initial Application Deployment
-mkdir -p /var/www/app
-cd /var/www/app
+git clone https://github.com/dbembnista1/project1-car-prices-terraform.git /tmp/car-prices-repo
 
-# Clone public repo
-git clone https://github.com/dbembnista1/project1-car-prices-terraform.git .
+# Tworzymy folder docelowy i kopiujemy TYLKO pliki aplikacji Node.js
+mkdir -p /var/www/app
+cp -r /tmp/car-prices-repo/src/express/* /var/www/app/
+
+# Sprzątamy folder tymczasowy (usuwamy terraforma z serwera!)
+rm -rf /tmp/car-prices-repo
 
 # Install and Start Node.js app
-cd src/express
+cd /var/www/app
 npm install
 chown -R ec2-user:ec2-user /var/www/app
 sudo -u ec2-user pm2 start app.js --name "car-prices-api"
