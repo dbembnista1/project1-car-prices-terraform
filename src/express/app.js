@@ -5,6 +5,8 @@ const path = require('path');
 const moment = require('moment'); // Import Moment.js
 require('chartjs-adapter-moment'); // Import the moment adapter
 
+// HELLO FROM GH ACTIONS
+
 // Set up DynamoDB client
 AWS.config.update({ region: 'eu-central-1' }); // Change to your region
 const dynamodb = new AWS.DynamoDB.DocumentClient();

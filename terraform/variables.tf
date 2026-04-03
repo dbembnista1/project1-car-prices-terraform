@@ -19,3 +19,9 @@ variable "github_repository" {
   type        = string
   default     = ""
 }
+
+variable "github_owner" {
+  description = "GitHub username or organization owning the repository"
+  type        = string
+  default     = ""
+}

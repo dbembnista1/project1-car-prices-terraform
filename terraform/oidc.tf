@@ -28,7 +28,7 @@ resource "aws_iam_role" "github_actions_role" {
         }
         # ZABEZPIECZENIE: Tylko Twoje konkretne repozytorium na GitHubie może użyć tej roli!
         StringLike = {
-          "token.actions.githubusercontent.com:sub" = "repo:${var.github_repository}:*"
+          "token.actions.githubusercontent.com:sub" = "repo:${var.github_owner}/${var.github_repository}:*"
         }
       }
     }]
