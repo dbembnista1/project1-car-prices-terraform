@@ -183,3 +183,16 @@ resource "aws_iam_instance_profile" "ec2_profile" {
   name = "car_prices_instance_profile"
   role = aws_iam_role.ec2_role.name
 }
+
+# Reserve elastic ip
+resource "aws_eip" "web_server_eip" {
+  domain = "vpc"
+  
+  tags = merge(var.tags, { Name = "${var.project_name}-static-ip" })
+}
+
+# Attach EIP to instance
+resource "aws_eip_association" "eip_assoc" {
+  instance_id   = aws_instance.web_server.id
+  allocation_id = aws_eip.web_server_eip.id
+}

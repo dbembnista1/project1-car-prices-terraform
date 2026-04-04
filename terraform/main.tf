@@ -44,3 +44,9 @@ resource "github_actions_secret" "ec2_ssh_key" {
   secret_name     = "EC2_SSH_KEY"
   plaintext_value = module.compute.private_key_pem
 }
+
+module "cognito" {
+  source        = "./modules/cognito"
+  project_name  = var.project_name
+  web_server_ip = module.compute.instance_public_ip
+}

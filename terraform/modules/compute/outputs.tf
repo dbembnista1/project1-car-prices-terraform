@@ -1,6 +1,6 @@
 output "instance_public_ip" {
   description = "Public IP address of the web server"
-  value       = aws_instance.web_server.public_ip
+  value       = aws_eip.web_server_eip.public_ip
 }
 
 output "instance_public_dns" {
