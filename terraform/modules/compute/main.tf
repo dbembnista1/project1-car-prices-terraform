@@ -81,18 +81,18 @@ resource "aws_instance" "web_server" {
 #!/bin/bash
 # 1. Update system and install dependencies
 dnf update -y
-dnf install -y git nodejs httpd mod_ssl
+dnf install -y git nodejs httpd mod_ssl gettext
 dnf install -y cairo pango libjpeg-turbo giflib pixman pango-devel cairo-devel
 npm install -g pm2
 
-# 2. SSL Setup (Self-signed for HTTPS support)
+# SSL Setup (Self-signed for HTTPS support)
 mkdir -p /etc/ssl/private /etc/ssl/certs
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -keyout /etc/ssl/private/selfsigned.key \
   -out /etc/ssl/certs/selfsigned.crt \
   -subj "/C=PL/ST=State/L=City/O=Organization/CN=localhost"
 
-# 3. Apache Proxy Configuration
+# Apache Proxy Configuration
 cat << 'CONFIG' > /etc/httpd/conf.d/express.conf
 <VirtualHost *:80>
     ProxyPreserveHost On
@@ -113,15 +113,20 @@ CONFIG
 systemctl enable httpd
 systemctl start httpd
 
-# 4. Initial Application Deployment
+# Initial Application Deployment
 git clone https://github.com/dbembnista1/project1-car-prices-terraform.git /tmp/car-prices-repo
-
-# Tworzymy folder docelowy i kopiujemy TYLKO pliki aplikacji Node.js
 mkdir -p /var/www/app
 cp -r /tmp/car-prices-repo/src/express/* /var/www/app/
-
-# Sprzątamy folder tymczasowy (usuwamy terraforma z serwera!)
 rm -rf /tmp/car-prices-repo
+
+#  Inject Variables into HTML Template
+export COGNITO_DOMAIN="${var.cognito_domain}"
+export COGNITO_CLIENT_ID="${var.cognito_client_id}"
+export API_BASE_URL="${var.api_base_url}"
+export EC2_HOST="$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)"
+
+HTML_FILE="/var/www/app/public/api-form-with-authentication-hostedUI.html"
+envsubst '$COGNITO_DOMAIN$COGNITO_CLIENT_ID$API_BASE_URL$EC2_HOST' < $HTML_FILE > temp.html && mv temp.html $HTML_FILE
 
 # Install and Start Node.js app
 cd /var/www/app

@@ -24,6 +24,11 @@ module "compute" {
   
   #db
   dynamodb_table_arn = module.database.table_arn
+  
+  #variables for html file
+  api_base_url            = module.api.api_url
+  cognito_domain          = module.cognito.cognito_domain
+  cognito_client_id       = module.cognito.client_id
 }
 
 
