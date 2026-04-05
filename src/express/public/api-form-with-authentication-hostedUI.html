@@ -20,9 +20,10 @@
     <button id="logoutButton">Logout</button>
 
     <script>
-        const cognitoDomain = 'car-scraper-users.auth.eu-central-1.amazoncognito.com'; 
-        const clientId = '4sh838hqkfqu928kkbn22718hh'; 
-        const redirectUri = 'https://ec2-18-193-86-245.eu-central-1.compute.amazonaws.com/api-form-with-authentication-hostedUI.html'; 
+        const cognitoDomain = '${COGNITO_DOMAIN}'; 
+        const clientId = '${COGNITO_CLIENT_ID}'; 
+        const redirectUri = 'https://${EC2_HOST}/api-form-with-authentication-hostedUI.html'; 
+        const apiBaseUrl = '${API_BASE_URL}';
 
         function handleCognitoCallback() {
             const urlParams = new URLSearchParams(window.location.hash.substring(1));
@@ -43,7 +44,7 @@
             const token = localStorage.getItem('id_token');
             if (!token) return;
 
-            const modelsApiUrl = 'https://m2pq5ora23.execute-api.eu-central-1.amazonaws.com/prod/models';
+            const modelsApiUrl = `${apiBaseUrl}/models`;
 
             try {
                 const response = await fetch(modelsApiUrl, {
@@ -81,7 +82,7 @@
             event.preventDefault();
             
             const carModel = document.getElementById('car_model').value;
-            const apiUrl = `https://m2pq5ora23.execute-api.eu-central-1.amazonaws.com/prod/car?model=${encodeURIComponent(carModel)}`;
+            const apiUrl = `${apiBaseUrl}/car?model=${encodeURIComponent(carModel)}`;
             const token = localStorage.getItem('id_token');
 
             if (!token) {

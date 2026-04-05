@@ -27,14 +27,14 @@ jobs:
         run: |
           cd src/lambdas
           
-          # Pakujemy i wysyłamy pierwszą Lambdę
+          
           zip find-models.zip api-find-models.py
           aws lambda update-function-code \
-            --function-name ${{ secrets.PROJECT_NAME }}-find-models \
+            --function-name ${{ vars.PROJECT_NAME }}-find-models \
             --zip-file fileb://find-models.zip
             
-          # Pakujemy i wysyłamy drugą Lambdę
+          
           zip get-prices.zip api-get-prices-by-model.py
           aws lambda update-function-code \
-            --function-name ${{ secrets.PROJECT_NAME }}-get-prices \
+            --function-name ${{ vars.PROJECT_NAME }}-get-prices \
             --zip-file fileb://get-prices.zip

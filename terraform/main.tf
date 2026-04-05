@@ -42,6 +42,8 @@ module "api" {
   cognito_user_pool_arn = module.cognito.user_pool_arn
 }
 
+#GITHUB secrets
+
 
 resource "github_actions_secret" "ec2_host" {
   # If enable_github_secrets = true, create 1. Else 0.
@@ -52,6 +54,7 @@ resource "github_actions_secret" "ec2_host" {
   plaintext_value = module.compute.instance_public_ip
 }
 
+
 resource "github_actions_secret" "ec2_ssh_key" {
   count           = var.enable_github_secrets ? 1 : 0
   
@@ -60,9 +63,32 @@ resource "github_actions_secret" "ec2_ssh_key" {
   plaintext_value = module.compute.private_key_pem
 }
 
-resource "github_actions_secret" "project_name" {
-  count           = var.enable_github_secrets ? 1 : 0
-  repository      = var.github_repository
-  secret_name     = "PROJECT_NAME"
-  plaintext_value = var.project_name
+#GITHUB variables
+
+resource "github_actions_variable" "project_name" {
+  count         = var.enable_github_secrets ? 1 : 0
+  repository    = var.github_repository
+  variable_name = "PROJECT_NAME"
+  value         = var.project_name
+}
+
+resource "github_actions_variable" "cognito_domain" {
+  count         = var.enable_github_secrets ? 1 : 0
+  repository    = var.github_repository
+  variable_name = "COGNITO_DOMAIN"
+  value         = module.cognito.cognito_domain
+}
+
+resource "github_actions_variable" "cognito_client_id" {
+  count         = var.enable_github_secrets ? 1 : 0
+  repository    = var.github_repository
+  variable_name = "COGNITO_CLIENT_ID"
+  value         = module.cognito.client_id
+}
+
+resource "github_actions_variable" "api_base_url" {
+  count         = var.enable_github_secrets ? 1 : 0
+  repository    = var.github_repository
+  variable_name = "API_BASE_URL"
+  value         = module.api.api_url
 }
