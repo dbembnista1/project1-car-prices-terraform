@@ -1,0 +1,40 @@
+name: Deploy Lambda Functions
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/lambdas/**'
+
+permissions:
+  id-token: write 
+  contents: read
+
+jobs:
+  deploy-lambdas:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }} 
+          aws-region: eu-central-1
+
+      - name: Update Lambda code via AWS CLI
+        run: |
+          cd src/lambdas
+          
+          # Pakujemy i wysyłamy pierwszą Lambdę
+          zip find-models.zip api-find-models.py
+          aws lambda update-function-code \
+            --function-name ${{ secrets.PROJECT_NAME }}-find-models \
+            --zip-file fileb://find-models.zip
+            
+          # Pakujemy i wysyłamy drugą Lambdę
+          zip get-prices.zip api-get-prices-by-model.py
+          aws lambda update-function-code \
+            --function-name ${{ secrets.PROJECT_NAME }}-get-prices \
+            --zip-file fileb://get-prices.zip
