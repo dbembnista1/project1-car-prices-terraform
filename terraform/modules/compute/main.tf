@@ -123,7 +123,7 @@ rm -rf /tmp/car-prices-repo
 export COGNITO_DOMAIN="${var.cognito_domain}"
 export COGNITO_CLIENT_ID="${var.cognito_client_id}"
 export API_BASE_URL="${var.api_base_url}"
-export EC2_HOST="$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)"
+export EC2_HOST="${aws_eip.web_server_eip.public_ip}"
 
 HTML_FILE="/var/www/app/public/api-form-with-authentication-hostedUI.html"
 envsubst '$COGNITO_DOMAIN$COGNITO_CLIENT_ID$API_BASE_URL$EC2_HOST' < $HTML_FILE > temp.html && mv temp.html $HTML_FILE
