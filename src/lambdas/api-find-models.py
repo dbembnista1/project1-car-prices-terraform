@@ -4,8 +4,6 @@ import boto3
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('car_prices')
 
-#HELLLLLLLLLLLLLLLLO
-
 def lambda_handler(event, context):
     try:
         # Pobieramy tylko jeden rekord, żeby odczytać nazwy kolumn
