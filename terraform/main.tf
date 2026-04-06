@@ -47,7 +47,23 @@ module "api" {
   cognito_user_pool_arn = module.cognito.user_pool_arn
 }
 
-#GITHUB secrets
+# Data collecting feature (optional)
+
+module "data_collector" {
+  source = "./modules/data-collector"
+  
+  # If enable_data_collector = true, create 1. Else 0.
+  count  = var.enable_data_collector ? 1 : 0
+  
+  project_name       = var.project_name
+  dynamodb_table_arn = module.database.table_arn
+  collector_urls     = var.collector_urls
+  pandas_layer_arn   = var.pandas_layer_arn
+}
+
+
+
+#GITHUB secrets (CICD enablement for web server, optional)
 
 
 resource "github_actions_secret" "ec2_host" {

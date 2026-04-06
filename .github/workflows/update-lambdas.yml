@@ -27,6 +27,8 @@ jobs:
               - 'src/lambdas/api-find-models.py'
             get_prices:
               - 'src/lambdas/api-get-prices-by-model.py'
+            data_collector:
+              - 'src/lambdas/data_collector.py'
 
       - name: Configure AWS Credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v4
@@ -34,7 +36,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }} 
           aws-region: eu-central-1
 
-      # STEP 2: Deploy find-models Lambda (runs only if its code has changed)
+      # STEP 2: Deploy find-models Lambda 
       - name: Update Lambda - Find Models
         if: steps.changes.outputs.find_models == 'true'
         run: |
@@ -44,7 +46,7 @@ jobs:
             --function-name ${{ vars.PROJECT_NAME }}-find-models \
             --zip-file fileb://find-models.zip
             
-      # STEP 3: Deploy get-prices Lambda (runs only if its code has changed)
+      # STEP 3: Deploy get-prices Lambda
       - name: Update Lambda - Get Prices
         if: steps.changes.outputs.get_prices == 'true'
         run: |
@@ -53,3 +55,13 @@ jobs:
           aws lambda update-function-code \
             --function-name ${{ vars.PROJECT_NAME }}-get-prices \
             --zip-file fileb://get-prices.zip
+
+      # STEP 4: Deploy Data Collector Lambda
+      - name: Update Lambda - Data Collector
+        if: steps.changes.outputs.data_collector == 'true'
+        run: |
+          cd src/lambdas
+          zip collector.zip data_collector.py
+          aws lambda update-function-code \
+            --function-name ${{ vars.PROJECT_NAME }}-data-collector \
+            --zip-file fileb://collector.zip
