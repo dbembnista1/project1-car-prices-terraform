@@ -11,8 +11,8 @@ variable "common_tags" {
     Project     = "CarPricesApp"
     Environment = "Dev"
     ManagedBy   = "Terraform"
+  }
 }
-
 variable "enable_github_secrets" {
   description = "Set to true to automatically configure CICD for web server code (EC2 IP and SSH Key needed) and configure CICD for infra (OICD connection to AWS needed) using GitHub Actions Secrets"
   type        = bool
