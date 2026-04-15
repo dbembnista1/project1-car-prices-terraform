@@ -13,7 +13,7 @@ permissions:
 jobs:
   deploy-lambdas:
     runs-on: ubuntu-latest
-    if: ${{ secrets.AWS_OIDC_ROLE_ARN != '' }}
+    if: ${{ vars.PROJECT_NAME != '' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
