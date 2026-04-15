@@ -10,6 +10,7 @@ data "archive_file" "get_prices_zip" {
   source_file = "${path.root}/../src/lambdas/api_get_prices_by_model.py"
   output_path = "${path.root}/.terraform/get_prices.zip"
 
+}
 # IAM for lambdas
 
 resource "aws_iam_role" "lambda_role" {

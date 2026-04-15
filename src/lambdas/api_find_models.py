@@ -6,20 +6,20 @@ table = dynamodb.Table('car_prices')
 
 def lambda_handler(event, context):
     try:
-        # Pobieramy tylko jeden rekord, żeby odczytać nazwy kolumn
+        
         response = table.scan(Limit=1)
         items = response.get('Items', [])
         
         if not items:
             return build_response(200, [])
             
-        # Wyciągamy wszystkie klucze z pobranego rekordu
+        
         all_columns = list(items[0].keys())
         
-        # Odrzucamy kolumnę 'date' oraz ewentualne ukryte klucze techniczne, jeśli jakieś masz
+        
         columns_to_exclude = ['date']
         
-        # Filtrujemy i sortujemy alfabetycznie
+        
         models = [col for col in all_columns if col not in columns_to_exclude]
         models.sort()
         
