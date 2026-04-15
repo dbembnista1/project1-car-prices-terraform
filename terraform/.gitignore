@@ -13,3 +13,7 @@ crash.log
 
 # Ignore generated SSH private keys
 *.pem
+
+
+#Ignore labda zip packages
+*.zip

@@ -113,3 +113,18 @@ resource "github_actions_variable" "api_base_url" {
   variable_name = "API_BASE_URL"
   value         = module.api.api_url
 }
+
+# Notifications module (SNS + Lambda Formatter)
+module "notifications" {
+  source = "./modules/notifications"
+  
+  # Only creates if collector is enabled AND email is not empty
+  count = (var.enable_data_collector && var.subscriber_email != "") ? 1 : 0
+
+  project_name          = var.project_name
+  subscriber_email      = var.subscriber_email
+  
+  # Dependencies from the data_collector module
+  collector_lambda_name = module.data_collector[0].lambda_name
+  collector_role_name   = module.data_collector[0].collector_role_name
+}
