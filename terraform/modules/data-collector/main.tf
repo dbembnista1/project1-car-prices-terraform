@@ -1,8 +1,9 @@
 # Zip the collector code
+
 data "archive_file" "collector_zip" {
   type        = "zip"
-  source_file = "${path.module}/../../../src/lambdas/data_collector.py"
-  output_path = "${path.module}/collector.zip"
+  source_file = "${path.root}/../src/lambdas/data_collector.py"
+  output_path = "${path.root}/.terraform/collector.zip"
 }
 
 # IAM Role for Collector Lambda

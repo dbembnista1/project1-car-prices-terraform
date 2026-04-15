@@ -48,7 +48,7 @@ resource "aws_iam_role_policy" "collector_sns_publish" {
 # Package Formatting Lambda code
 data "archive_file" "formatter_zip" {
   type        = "zip"
-  source_file = "${path.root}/../src/lambdas/email-formatting.py"
+  source_file = "${path.root}/../src/lambdas/email_formatting.py"
   output_path = "${path.root}/.terraform/formatter.zip"
 }
 
@@ -91,7 +91,7 @@ resource "aws_lambda_function" "formatter" {
   filename         = data.archive_file.formatter_zip.output_path
   function_name    = "${var.project_name}-formatter"
   role             = aws_iam_role.formatter_role.arn
-  handler          = "format_notification.lambda_handler"
+  handler          = "email_formatting.lambda_handler"
   runtime          = "python3.14"
   source_code_hash = data.archive_file.formatter_zip.output_base64sha256
 

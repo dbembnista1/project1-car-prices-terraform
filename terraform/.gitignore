@@ -15,5 +15,5 @@ crash.log
 *.pem
 
 
-#Ignore labda zip packages
+#Ignore zip files
 *.zip

@@ -1,16 +1,14 @@
 # packages for lambdas
-
 data "archive_file" "find_models_zip" {
   type        = "zip"
-  source_file = "${path.module}/../../../src/lambdas/api-find-models.py"
-  output_path = "${path.module}/find-models.zip"
+  source_file = "${path.root}/../src/lambdas/api_find_models.py"
+  output_path = "${path.root}/.terraform/find_models.zip"
 }
 
 data "archive_file" "get_prices_zip" {
   type        = "zip"
-  source_file = "${path.module}/../../../src/lambdas/api-get-prices-by-model.py"
-  output_path = "${path.module}/get-prices.zip"
-}
+  source_file = "${path.root}/../src/lambdas/api_get_prices_by_model.py"
+  output_path = "${path.root}/.terraform/get_prices.zip"
 
 # IAM for lambdas
 
@@ -55,7 +53,7 @@ resource "aws_lambda_function" "find_models" {
   filename         = data.archive_file.find_models_zip.output_path
   function_name    = "${var.project_name}-find-models"
   role             = aws_iam_role.lambda_role.arn
-  handler          = "api-find-models.lambda_handler"
+  handler          = "api_find_models.lambda_handler"
   runtime          = "python3.14"
   source_code_hash = data.archive_file.find_models_zip.output_base64sha256
 }
@@ -64,7 +62,7 @@ resource "aws_lambda_function" "get_prices" {
   filename         = data.archive_file.get_prices_zip.output_path
   function_name    = "${var.project_name}-get-prices"
   role             = aws_iam_role.lambda_role.arn
-  handler          = "api-get-prices-by-model.lambda_handler"
+  handler          = "api_get_prices_by_model.lambda_handler"
   runtime          = "python3.14"
   source_code_hash = data.archive_file.get_prices_zip.output_base64sha256
 }

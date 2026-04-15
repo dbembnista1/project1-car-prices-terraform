@@ -24,11 +24,13 @@ jobs:
         with:
           filters: |
             find_models:
-              - 'src/lambdas/api-find-models.py'
+              - 'src/lambdas/api_find_models.py'
             get_prices:
-              - 'src/lambdas/api-get-prices-by-model.py'
+              - 'src/lambdas/api_get_prices_by_model.py'
             data_collector:
               - 'src/lambdas/data_collector.py'
+            email_formatting:
+              - 'src/lambdas/email_formatting.py'
 
       - name: Configure AWS Credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v4
@@ -41,7 +43,7 @@ jobs:
         if: steps.changes.outputs.find_models == 'true'
         run: |
           cd src/lambdas
-          zip find-models.zip api-find-models.py
+          zip find-models.zip api_find_models.py
           aws lambda update-function-code \
             --function-name ${{ vars.PROJECT_NAME }}-find-models \
             --zip-file fileb://find-models.zip
@@ -51,7 +53,7 @@ jobs:
         if: steps.changes.outputs.get_prices == 'true'
         run: |
           cd src/lambdas
-          zip get-prices.zip api-get-prices-by-model.py
+          zip get-prices.zip api_get_prices_by_model.py
           aws lambda update-function-code \
             --function-name ${{ vars.PROJECT_NAME }}-get-prices \
             --zip-file fileb://get-prices.zip
@@ -65,3 +67,13 @@ jobs:
           aws lambda update-function-code \
             --function-name ${{ vars.PROJECT_NAME }}-data-collector \
             --zip-file fileb://collector.zip
+
+      # STEP 5: Deploy Formatter Lambda
+      - name: Update Lambda - Email Formatter
+        if: steps.changes.outputs.email_formatting == 'true'
+        run: |
+          cd src/lambdas
+          zip formatter.zip email_formatting.py
+          aws lambda update-function-code \
+            --function-name ${{ vars.PROJECT_NAME }}-formatter \
+            --zip-file fileb://formatter.zip
