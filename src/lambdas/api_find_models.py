@@ -13,7 +13,7 @@ def lambda_handler(event, context):
         if not items:
             return build_response(200, [])
             
-        
+        #column
         all_columns = list(items[0].keys())
         
         
