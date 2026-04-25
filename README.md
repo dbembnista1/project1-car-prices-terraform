@@ -51,3 +51,36 @@ collector_urls        = "[https://url1.com](https://url1.com),[https://url2.com]
 
 # 3. Enable Email Notifications (Leave empty to disable)
 subscriber_email      = "your.email@example.com"
+```
+
+### 3. Deploy to AWS
+
+Run the following commands to provision your cloud environment:
+
+```bash
+cd terraform
+terraform init
+terraform apply
+```
+
+*Note: If you enabled notifications, check your email to confirm the AWS SNS subscription.*
+
+## 🔄 Automated Workflows (CI/CD)
+
+The project includes two main GitHub Action workflows that automatically sync your local code with AWS:
+
+* **Lambda Update**: Monitors `src/lambdas/` and updates the corresponding function code on AWS only if the specific file was modified.
+* **Web Server Update**: Monitors `src/express/`, copies new files to EC2 via SCP, injects dynamic environment variables (Cognito Domain, API URLs), and restarts the PM2 process.
+
+Both workflows use defensive checks to ensure they only run if the necessary infrastructure (OIDC role/Secrets) has been provisioned by Terraform.
+
+## 🧹 Cleanup
+
+To remove all resources and stop AWS charges:
+```bash
+terraform destroy
+```
+
+
+
+
