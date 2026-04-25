@@ -93,7 +93,7 @@ app.get('/', async (req, res) => {
                 borderColor: 'rgba(200, 200, 200, 0.4)',
                 borderWidth: 1,
                 pointRadius: 1,
-                tension: 0.1
+                tension: 0 // Zmiana z 0.1 na 0 (wyłącza zakrzywienia)
               },
               {
                 label: `${model} (${smaWindow}-day Moving Average)`,
@@ -101,7 +101,7 @@ app.get('/', async (req, res) => {
                 fill: false,
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 3,
-                tension: 0.4,
+                tension: 0, // Zmiana z 0.4 na 0 (wyłącza zakrzywienia)
                 pointRadius: 0,
                 spanGaps: true
               }
