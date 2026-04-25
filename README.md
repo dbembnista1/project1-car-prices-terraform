@@ -1,6 +1,6 @@
 # 🚗 Car Prices Tracker
 
-Project created out of curiosity to check if prices for cars manufactured in specific year are getting cheaper with time or the inflation/quality keep the price high.
+Project created out of curiosity to check if prices for cars manufactured in specific year are getting lower with time or the inflation/quality keep the price high.
 
 It became an event-driven cloud architecture built on AWS to track, store, and analyze car prices over time. The entire infrastructure is managed as Code (IaC) using **Terraform** and features automated CI/CD pipelines via **GitHub Actions**.
 
