@@ -14,6 +14,15 @@ The system is divided into three main logical components:
 
 *(You can put your architecture diagram image here)*
 
+## 🔄 Automated Workflows (CI/CD)
+
+The project includes two main GitHub Action workflows that automatically sync your local code with AWS:
+
+* **Lambda Update**: Monitors `src/lambdas/` and updates the corresponding function code on AWS only if the specific file was modified.
+* **Web Server Update**: Monitors `src/express/`, copies new files to EC2 via SCP, injects dynamic environment variables (Cognito Domain, API URLs), and restarts the PM2 process.
+
+Both workflows use defensive checks to ensure they only run if the necessary infrastructure (OIDC role/Secrets) has been provisioned by Terraform.
+
 ## ✨ Key Features
 * **100% Infrastructure as Code**: Fully modularized Terraform setup with conditional resource creation.
 * **Zero-Downtime Deployments**: CI/CD pipelines automatically build, zip, and deploy new Lambda & Express.js code without manual intervention.
@@ -68,14 +77,7 @@ terraform apply
 
 *Note: If you enabled notifications, check your email to confirm the AWS SNS subscription.*
 
-## 🔄 Automated Workflows (CI/CD)
 
-The project includes two main GitHub Action workflows that automatically sync your local code with AWS:
-
-* **Lambda Update**: Monitors `src/lambdas/` and updates the corresponding function code on AWS only if the specific file was modified.
-* **Web Server Update**: Monitors `src/express/`, copies new files to EC2 via SCP, injects dynamic environment variables (Cognito Domain, API URLs), and restarts the PM2 process.
-
-Both workflows use defensive checks to ensure they only run if the necessary infrastructure (OIDC role/Secrets) has been provisioned by Terraform.
 
 ## 🧹 Cleanup
 
