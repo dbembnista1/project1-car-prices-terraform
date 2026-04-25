@@ -35,6 +35,7 @@ The system is divided into three main logical components:
 ### 1. Prerequisites
 * [Terraform](https://www.terraform.io/downloads.html) installed locally.
 * An AWS Account and configured AWS CLI (`aws configure`).
+* **GitHub Personal Access Token (PAT)** with `repo` scope, set as an environment variable: `export GITHUB_TOKEN=your_token_here` (required only if `enable_github_secrets` is set to `true`).
 
 ### 2. Infrastructure Configuration
 To customize the deployment, create a `terraform/terraform.tfvars` file based on your preferences:
