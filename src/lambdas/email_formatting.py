@@ -3,6 +3,7 @@ import boto3
 import os
 
 # Initialize the SNS client
+# HELLO from GH Actions
 sns = boto3.client('sns')
 
 def lambda_handler(event, context):
