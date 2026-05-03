@@ -8,7 +8,6 @@ from datetime import datetime
 import os
 
 # Function to fetch car prices with retry logic and exponential backoff
-# HELLO from GH Actions!
 
 def fetch_car_prices_with_retry(url, max_retries=5, backoff_factor=2):
     headers = {
