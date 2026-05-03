@@ -59,7 +59,7 @@ github_repository     = "your-repo-name"
 
 # 2. Enable Daily Data Collection
 enable_data_collector = true
-collector_urls        = "[https://url1.com](https://url1.com),[https://url2.com](https://url2.com)"
+collector_urls        = "[https://url1.com],[https://url2.com]"
 
 # 3. Enable Email Notifications (Leave empty to disable)
 subscriber_email      = "your.email@example.com"
